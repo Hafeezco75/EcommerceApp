@@ -15,7 +15,6 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @SpringBootTest
 public class UserServiceImplTest {
-    private UserRepository userRepository;
     @Autowired
     private UserService userService;
 

@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 public class Product {
     @Id
-    private String id;
+    private String productId;
     private String productName;
     private String productDescription;
     private double Price;

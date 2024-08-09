@@ -2,12 +2,11 @@ package com.jumia.dtos.responses;
 
 import lombok.*;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 @ToString
-public class FindProductResponse {
+public class UpdateProductResponse {
     private String message;
-
 }

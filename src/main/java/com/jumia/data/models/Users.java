@@ -20,5 +20,6 @@ public class Users {
     private String email;
     private String addresses;
     private String password;
+    private RoleType role;
 
 }

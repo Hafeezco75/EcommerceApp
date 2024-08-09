@@ -14,10 +14,10 @@ import java.time.LocalDate;
 @Setter
 @Document
 public class CreditCardInformation extends BillingInformation {
-    private int cardCVV;
+    private String cardCVV;
     private String cardHolderName;
     private Long creditCardNumber;
     private LocalDate cardExpirationMonth;
     private LocalDate cardExpirationYear;
-//    private CardType cardType;
+    private CardType cardType;
 }
