@@ -6,16 +6,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 public enum CardType {
 
-    AMERICANEXPRESS("Dollar Express","Naira Express"),
-    MASTERCARD("Credit MasterCard", "Debit MasterCard"),
-    VISA("Visa", "DebitVisa"),
-    VERVE("Credit Verve", "Debit Verve"),;
+    AMERICANEXPRESS,
+    MASTERCARD,
+    VISA,
+    VERVE;
 
-
-    private CardType(String... cards){
-        this.cardTypes = cards;
-    }
-
-    private final String[] cardTypes;
 
 }

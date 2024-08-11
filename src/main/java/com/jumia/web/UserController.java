@@ -36,8 +36,8 @@ public class UserController {
         try {
             LoginUserResponse loginUserResponse = userService.login(loginUserRequest);
             return new ResponseEntity<>(new ApiResponse(true, loginUserResponse), HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }catch (Exception exception){
+            return new ResponseEntity<>(new ApiResponse(false, exception.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -50,6 +50,8 @@ public class UserController {
             return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
+
 
 
 }

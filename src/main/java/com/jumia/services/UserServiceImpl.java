@@ -71,17 +71,6 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Users findUserEmail(String email) {
-        for (Users user : userRepository.findAll()) {
-            if (user.getEmail().equals(email)) {
-                return userRepository.findByEmail(email);
-            }
-        }
-        return null;
-    }
-
-
-    @Override
     public Users findUserByPhoneNumber(String phoneNumber) {
         for (Users user: userRepository.findAll()) {
             if (user.getPhoneNumber().equals(phoneNumber)) {
@@ -112,7 +101,10 @@ public class UserServiceImpl implements UserService{
         String email = registerUserRequest.getEmail();
 
         for (Users users : userRepository.findAll()) {
-            if (users.getEmail().equals(email)) {throw new IllegalArgumentException("Email already exists,select another email");}
+            if (users.getEmail().equals(email)) {
+                throw new IllegalArgumentException("Email already exists,select another email");
+            }
+            userRepository.findAll();
         }
     }
 

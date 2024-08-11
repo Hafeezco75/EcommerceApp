@@ -1,7 +1,5 @@
 package com.jumia.services;
-import com.jumia.data.repositories.UserRepository;
 import com.jumia.dtos.requests.LoginUserRequest;
-import com.jumia.dtos.requests.LogoutUserRequest;
 import com.jumia.dtos.requests.RegisterUserRequest;
 import com.jumia.dtos.responses.LoginUserResponse;
 import com.jumia.dtos.responses.LogoutUserResponse;
@@ -21,9 +19,9 @@ public class UserServiceImplTest {
     @Test
     public void testThatUserCanBeRegistered() {
         RegisterUserRequest registerUserRequest = new RegisterUserRequest();
-        registerUserRequest.setFirstName("Musa");
-        registerUserRequest.setLastName("Bolu");
-        registerUserRequest.setEmail("balotelli@gmail.com");
+        registerUserRequest.setFirstName("Moe");
+        registerUserRequest.setLastName("Blue");
+        registerUserRequest.setEmail("balovillip@gmail.com");
         registerUserRequest.setPassword("12347890");
         registerUserRequest.setPhoneNumber("2334567870");
         RegisterUserResponse registerUserResponse = userService.register(registerUserRequest);

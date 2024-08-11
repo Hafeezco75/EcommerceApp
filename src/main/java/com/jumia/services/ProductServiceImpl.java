@@ -7,8 +7,10 @@ import com.jumia.data.models.Users;
 import com.jumia.data.repositories.ProductRepository;
 import com.jumia.dtos.requests.AddProductRequest;
 import com.jumia.dtos.requests.RemoveProductRequest;
+import com.jumia.dtos.requests.RetrieveProductRequest;
 import com.jumia.dtos.responses.AddProductResponse;
 import com.jumia.dtos.responses.RemoveProductResponse;
+import com.jumia.dtos.responses.RetrieveProductResponse;
 import com.jumia.dtos.responses.UpdateProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,12 +25,12 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private UserService userService;
     private String productId;
-    private String userId;
 
 
     @Override
     public AddProductResponse addProduct(AddProductRequest addProductRequest) {
-        validateUser(userId);
+        Users users = new Users();
+        validateUser(users.getId());
         checkProductExist(productId);
         Product product = new Product();
         product.setProductId("25");
@@ -45,7 +47,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public RemoveProductResponse removeProduct(RemoveProductRequest removeProductRequest) {
-        validateUser(userId);
+        Users users = new Users();
+        validateUser(users.getId());
         Product product = new Product();
         product.setProductId("25");
         product.setProductName("Celerac");
@@ -61,10 +64,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public UpdateProductResponse updateProduct(AddProductRequest addProductRequest) {
-        validateUser(userId);
+        Users users = new Users();
+        validateUser(users.getId());
         checkUpProduct(productId);
         Product product = new Product();
-        product.setProductId("234");
         product.setProductName("Chocolate");
         product.setProductDescription("A widely consumed snacks for All");
         product.setPrice(8500.0);
@@ -74,6 +77,22 @@ public class ProductServiceImpl implements ProductService {
         UpdateProductResponse updateProductResponse = new UpdateProductResponse();
         updateProductResponse.setMessage("Product has been updated successfully");
         return updateProductResponse;
+    }
+
+    @Override
+    public RetrieveProductResponse retrieveProduct(RetrieveProductRequest retrieveProductRequest) {
+        List<Product> products = productRepository.findAll();
+        for (Product product : products) {
+            if (product.getProductId().equals(retrieveProductRequest.getProductId())) {
+                throw new IllegalArgumentException("No products found");
+            } else {
+                getAllProduct(product.getProductId());
+            }
+        }
+
+        RetrieveProductResponse retrieveProductResponse = new RetrieveProductResponse();
+        retrieveProductResponse.setMessage("Product has been retrieved successfully");
+        return retrieveProductResponse;
     }
 
 
@@ -105,15 +124,15 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    private Product checkUpProduct(String productId) {
+    private void checkUpProduct(String productId) {
         for (Product product : productRepository.findAll()) {
             if (product.getProductId().equals(productId)) {
-                return product;
+                productRepository.save(product);
             } else {
-                throw new IllegalArgumentException("No product found");
+                throw new RuntimeException("No products available");
             }
         }
-        return null;
+        throw new IllegalArgumentException("No product found");
     }
 
     private void validateUser(String userId) {
@@ -125,7 +144,7 @@ public class ProductServiceImpl implements ProductService {
                 }
             }
         }catch (Exception e){
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException("User does not exist");
         }
     }
 

@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document
@@ -13,9 +15,10 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-////    private int quantityOfProductSelected;
-public class Items {
-    private String id;
+public class Items extends ShoppingCart {
+    @Id
+    private String itemId;
+    private List<Product> products = new ArrayList<>();
+    private int quantityOfProductSelected;
     private ProductCategory category;
-    private List<Product> products;
 }

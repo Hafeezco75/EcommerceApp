@@ -16,14 +16,8 @@ public interface UserService {
     LoginUserResponse login(LoginUserRequest loginUserRequest);
     LogoutUserResponse logout(LoginUserRequest loginUserRequest);
     void deleteUser(String id);
-
-    Users findUserEmail(String email);
     Users findUserByPhoneNumber(String phoneNumber);
-
     Optional<Users> findUserById(String userId);
-//    Users findUserById(String id);
-
-
 }
 
 

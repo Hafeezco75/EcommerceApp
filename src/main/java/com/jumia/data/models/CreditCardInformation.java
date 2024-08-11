@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Document
-public class CreditCardInformation extends BillingInformation {
+public class CreditCardInformation extends Customers {
     private String cardCVV;
     private String cardHolderName;
     private Long creditCardNumber;
