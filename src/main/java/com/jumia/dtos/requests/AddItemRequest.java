@@ -5,6 +5,7 @@ import com.jumia.data.models.ProductCategory;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -13,9 +14,8 @@ import java.util.List;
 @Setter
 @ToString
 public class AddItemRequest {
-    @Id
     private String itemId;
-    private List<Product> products;
-    private long quantityOfProductSelected;
+    private List<Product> products = new ArrayList<>();
+    private int quantityOfProductSelected;
     private ProductCategory productCategory;
 }

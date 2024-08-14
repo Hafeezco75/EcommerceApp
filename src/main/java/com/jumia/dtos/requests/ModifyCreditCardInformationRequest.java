@@ -1,20 +1,19 @@
-package com.jumia.data.models;
+package com.jumia.dtos.requests;
 
+import com.jumia.data.models.CardType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.time.Month;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@Document
-public class CreditCardInformation extends Customers {
+public class ModifyCreditCardInformationRequest {
     private String cardCVV;
     private String cardHolderName;
     private Long creditCardNumber;

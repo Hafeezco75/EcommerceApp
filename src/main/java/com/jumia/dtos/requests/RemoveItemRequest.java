@@ -16,6 +16,6 @@ public class RemoveItemRequest {
     @Id
     private String itemId;
     private List<Product> products;
-    private long quantityOfProductSelected;
+    private int quantityOfProductSelected;
     private ProductCategory productCategory;
 }

@@ -1,16 +1,17 @@
 package com.jumia.services;
-import com.jumia.data.models.CardType;
 import com.jumia.data.models.CreditCardInformation;
-import com.jumia.data.models.RoleType;
 import com.jumia.data.repositories.CreditCardInformationRepository;
 import com.jumia.dtos.requests.AddCreditCardInformationRequest;
+import com.jumia.dtos.requests.ModifyCreditCardInformationRequest;
 import com.jumia.dtos.requests.RemoveCreditCardInformationRequest;
 import com.jumia.dtos.responses.AddCreditCardInformationResponse;
+import com.jumia.dtos.responses.ModifyCreditCardInformationResponse;
 import com.jumia.dtos.responses.RemoveCreditCardInformationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CreditCardInformationServiceImpl implements CreditCardInformationService {
@@ -21,18 +22,13 @@ public class CreditCardInformationServiceImpl implements CreditCardInformationSe
     @Override
     public AddCreditCardInformationResponse addCreditCardInformation(AddCreditCardInformationRequest addCreditCardInformationRequest) {
         CreditCardInformation creditCardInformation = new CreditCardInformation();
-        creditCardInformation.setId("32");
-        creditCardInformation.setName("Issac");
-        creditCardInformation.setEmail("grazac@gmail.com");
-        creditCardInformation.setPassword("Welcome342");
-        creditCardInformation.setPhoneNumber("09087123456");
-        creditCardInformation.setRole(RoleType.CUSTOMER);
-        creditCardInformation.setCardCVV("321");
-        creditCardInformation.setCardHolderName("Samson Balogun");
-        creditCardInformation.setCardExpirationMonth(LocalDate.now());
-        creditCardInformation.setCreditCardNumber(435677543329986L);
-        creditCardInformation.setCardExpirationYear(LocalDate.ofYearDay(1987,23));
-        creditCardInformation.setCardType(CardType.AMERICANEXPRESS);
+        creditCardInformation.setRole(addCreditCardInformationRequest.getRoleType());
+        creditCardInformation.setCardCVV(addCreditCardInformationRequest.getCardCVV());
+        creditCardInformation.setCardHolderName(addCreditCardInformationRequest.getCardHolderName());
+        creditCardInformation.setCardExpirationMonth(addCreditCardInformationRequest.getCardExpirationMonth());
+        creditCardInformation.setCreditCardNumber(addCreditCardInformationRequest.getCreditCardNumber());
+        creditCardInformation.setCardExpirationYear(addCreditCardInformationRequest.getCardExpirationYear());
+        creditCardInformation.setCardType(addCreditCardInformationRequest.getCardType());
         creditCardInformationRepository.save(creditCardInformation);
 
         AddCreditCardInformationResponse addCreditCardInformationResponse = new AddCreditCardInformationResponse();
@@ -43,25 +39,38 @@ public class CreditCardInformationServiceImpl implements CreditCardInformationSe
 
     @Override
     public RemoveCreditCardInformationResponse removeCreditCardInformation(RemoveCreditCardInformationRequest removeCreditCardInformationRequest){
-        CreditCardInformation creditCardInformation = new CreditCardInformation();
-        creditCardInformation.setId("54");
-        creditCardInformation.setName("Samson");
-        creditCardInformation.setEmail("samson@gmail.com");
-        creditCardInformation.setPassword("Welcome342");
-        creditCardInformation.setPhoneNumber("09087123456");
-        creditCardInformation.setRole(RoleType.CUSTOMER);
-        creditCardInformation.setCardCVV("876");
-        creditCardInformation.setCardHolderName("Samson Balogun");
-        creditCardInformation.setCardExpirationMonth(LocalDate.now());
-        creditCardInformation.setCreditCardNumber(435677543329986L);
-        creditCardInformation.setCardExpirationYear(LocalDate.ofYearDay(1987,23));
-        creditCardInformation.setCardType(CardType.AMERICANEXPRESS);
-
-
         RemoveCreditCardInformationResponse removeCreditCardInformationResponse = new RemoveCreditCardInformationResponse();
-        removeCreditCardInformationResponse.setMessage("Credit Card Removed successfully");
+        List<CreditCardInformation> creditCardInformationList = creditCardInformationRepository.findAll();
+        for (CreditCardInformation creditCard : creditCardInformationList) {
+            if (Objects.equals(creditCard.getCreditCardNumber(), removeCreditCardInformationRequest.getCreditCardNumber())){
+                creditCardInformationRepository.delete(creditCard);
+                removeCreditCardInformationResponse.setMessage("Credit card information successfully deleted");
+            }else {
+                throw new IllegalArgumentException("Wrong credit card information, try again");
+            }
+        }
         return removeCreditCardInformationResponse;
     }
 
+    @Override
+    public ModifyCreditCardInformationResponse modifyCreditCard(ModifyCreditCardInformationRequest modifyCreditCardInformationRequest) {
+        ModifyCreditCardInformationResponse modifyCreditCardResponse = new ModifyCreditCardInformationResponse();
+        List<CreditCardInformation> creditCardList = creditCardInformationRepository.findAll();
+        for (CreditCardInformation creditCard : creditCardList) {
+            if (Objects.equals(creditCard.getCreditCardNumber(), modifyCreditCardInformationRequest.getCreditCardNumber())) {
+                creditCard.setCreditCardNumber(modifyCreditCardInformationRequest.getCreditCardNumber());
+                creditCard.setCardCVV(modifyCreditCardInformationRequest.getCardCVV());
+                creditCard.setCardHolderName(modifyCreditCardInformationRequest.getCardHolderName());
+                creditCard.setCardExpirationMonth(modifyCreditCardInformationRequest.getCardExpirationMonth());
+                creditCard.setCardExpirationYear(modifyCreditCardInformationRequest.getCardExpirationYear());
+                creditCard.setCardType(modifyCreditCardInformationRequest.getCardType());
+                creditCardInformationRepository.save(creditCard);
+                modifyCreditCardResponse.setMessage("Credit card information successfully updated");
+            }else {
+                throw new IllegalArgumentException("Incorrect Card Information, try again");
+            }
+        }
+        return modifyCreditCardResponse;
+    }
 
 }

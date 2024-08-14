@@ -13,9 +13,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BillingInformation {
-    @Id
-    private String customerId;
-    private String customerName;
-    private String customerAddress;
+    private Customers customers;
     private CreditCardInformation creditCardInformation;
+    private Addresses addresses;
+
 }

@@ -3,6 +3,7 @@ package com.jumia.services;
 import com.jumia.data.models.Items;
 import com.jumia.data.models.Product;
 import com.jumia.data.models.ProductCategory;
+import com.jumia.data.models.ShoppingCart;
 import com.jumia.data.repositories.ShoppingCartRepository;
 import com.jumia.dtos.requests.AddItemToShoppingCartRequest;
 import com.jumia.dtos.requests.RemoveItemFromShoppingCartRequest;
@@ -21,12 +22,10 @@ public class ShoppingCartImpl implements ShoppingCartService {
 
     @Override
     public AddItemToShoppingCartResponse addItemToShoppingCart(AddItemToShoppingCartRequest addItemToShoppingCartRequest) {
-        Items items = new Items();
-        items.setItemId("432");
-        items.setQuantityOfProductSelected(15);
-        items.setProducts(List.of(new Product("321","DanoMilk","A diary and supplementary foods for all",3400.00, ProductCategory.SUPERMARKET)));
-        items.setCategory(ProductCategory.SUPERMARKET);
-        shoppingCartRepository.save(items);
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setItems(addItemToShoppingCartRequest.getItems());
+        shoppingCart.setShoppingCartId(addItemToShoppingCartRequest.getShoppingCartId());
+        shoppingCartRepository.save(shoppingCart);
 
         AddItemToShoppingCartResponse addItemToShoppingCartResponse = new AddItemToShoppingCartResponse();
         addItemToShoppingCartResponse.setMessage("Successfully added item to Shopping cart");
@@ -36,12 +35,10 @@ public class ShoppingCartImpl implements ShoppingCartService {
 
     @Override
     public RemoveItemFromShoppingCartResponse removeItemFromShoppingCart(RemoveItemFromShoppingCartRequest removeItemFromShoppingCartRequest){
-        Items items = new Items();
-        items.setItemId("124");
-        items.setQuantityOfProductSelected(15);
-        items.setProducts(List.of(new Product("213","Semolina","Great Edibles which is sucullent",3500.00, ProductCategory.SUPERMARKET)));
-        items.setCategory(ProductCategory.SUPERMARKET);
-        shoppingCartRepository.delete(items);
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setShoppingCartId(removeItemFromShoppingCartRequest.getShoppingCartId());
+        shoppingCart.setItems(removeItemFromShoppingCartRequest.getItems());
+        shoppingCartRepository.delete(shoppingCart);
 
         RemoveItemFromShoppingCartResponse removeItemFromShoppingCartResponse = new RemoveItemFromShoppingCartResponse();
         removeItemFromShoppingCartResponse.setMessage("Successfully removed item from Shopping cart");

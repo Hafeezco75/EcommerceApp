@@ -15,8 +15,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Items extends ShoppingCart {
-    @Id
+public class Items {
     private String itemId;
     private List<Product> products = new ArrayList<>();
     private int quantityOfProductSelected;

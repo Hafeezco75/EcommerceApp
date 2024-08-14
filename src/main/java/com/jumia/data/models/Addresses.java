@@ -13,10 +13,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Addresses{
-    @Id
-    private String houseNumber;
+    private int houseNumber;
     private String street;
-    private String state;
+    private State state;
     private String cityName;
     private String countryName;
 }

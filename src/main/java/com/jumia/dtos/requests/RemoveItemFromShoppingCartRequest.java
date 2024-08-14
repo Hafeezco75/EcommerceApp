@@ -11,6 +11,6 @@ import java.util.List;
 @Getter
 @ToString
 public class RemoveItemFromShoppingCartRequest {
-    private String itemId;
+    private String shoppingCartId;
     private List<Items> items;
 }

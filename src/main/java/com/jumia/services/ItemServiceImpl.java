@@ -1,7 +1,6 @@
 package com.jumia.services;
 
 import com.jumia.data.models.Items;
-import com.jumia.data.models.ProductCategory;
 import com.jumia.data.repositories.ItemsRepository;
 import com.jumia.dtos.requests.AddItemRequest;
 import com.jumia.dtos.requests.RemoveItemRequest;
@@ -11,26 +10,21 @@ import com.jumia.dtos.responses.RemoveItemResponse;
 import com.jumia.dtos.responses.UpdateItemResponse;
 import com.jumia.exceptions.NoSuchItemException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemsRepository itemsRepository;
-    @Id
-    private String itemId;
 
 
     @Override
     public AddItemResponse addItem(AddItemRequest addItemRequest) {
         Items items = new Items();
-        items.setProducts(new ArrayList<>(20));
-        items.setQuantityOfProductSelected(13);
-        items.setCategory(ProductCategory.ELECTRONICS);
+        items.setProducts(addItemRequest.getProducts());
+        items.setQuantityOfProductSelected(addItemRequest.getQuantityOfProductSelected());
+        items.setCategory(addItemRequest.getProductCategory());
         itemsRepository.save(items);
 
         AddItemResponse addItemResponse = new AddItemResponse();
@@ -41,10 +35,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public RemoveItemResponse deleteItem(RemoveItemRequest removeItemRequest) {
         Items items = new Items();
-        items.setItemId("23");
-        items.setProducts(new ArrayList<>(10));
-        items.setQuantityOfProductSelected(13);
-        items.setCategory(ProductCategory.ELECTRONICS);
+        items.setItemId(removeItemRequest.getItemId());
+        items.setProducts(removeItemRequest.getProducts());
+        items.setQuantityOfProductSelected(removeItemRequest.getQuantityOfProductSelected());
+        items.setCategory(removeItemRequest.getProductCategory());
         itemsRepository.delete(items);
 
         RemoveItemResponse removeItemResponse = new RemoveItemResponse();
@@ -70,15 +64,6 @@ public class ItemServiceImpl implements ItemService {
         return updateItemResponse;
     }
 
-    private void validateItem(String itemId) {
-        for (Items item : itemsRepository.findAll()) {
-            if (item.getItemId().equals(itemId)) {
-                itemsRepository.delete(item);
-            }else {
-                throw new NoSuchItemException("Items does not exist");
-            }
-        }
-    }
 
 
 

@@ -2,7 +2,6 @@ package com.jumia.services;
 
 import com.jumia.data.models.RoleType;
 import com.jumia.data.models.Product;
-import com.jumia.data.models.ProductCategory;
 import com.jumia.data.models.Users;
 import com.jumia.data.repositories.ProductRepository;
 import com.jumia.dtos.requests.AddProductRequest;
@@ -24,20 +23,19 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     @Autowired
     private UserService userService;
-    private String productId;
+
 
 
     @Override
     public AddProductResponse addProduct(AddProductRequest addProductRequest) {
         Users users = new Users();
         validateUser(users.getId());
-        checkProductExist(productId);
         Product product = new Product();
-        product.setProductId("25");
-        product.setProductName("Celerac");
-        product.setProductDescription("A widely consumed food for Babies");
-        product.setPrice(8500.0);
-        product.setProductCategory(ProductCategory.SUPERMARKET);
+        product.setProductId(addProductRequest.getProductId());
+        product.setProductName(addProductRequest.getProductName());
+        product.setProductDescription(addProductRequest.getProductDescription());
+        product.setPrice(addProductRequest.getProductPrice());
+        product.setProductCategory(addProductRequest.getProductCategory());
         productRepository.save(product);
 
         AddProductResponse addProductResponse = new AddProductResponse();
@@ -50,11 +48,11 @@ public class ProductServiceImpl implements ProductService {
         Users users = new Users();
         validateUser(users.getId());
         Product product = new Product();
-        product.setProductId("25");
-        product.setProductName("Celerac");
-        product.setProductDescription("A widely consumed food for Babies");
-        product.setPrice(8500.0);
-        product.setProductCategory(ProductCategory.SUPERMARKET);
+        product.setProductId(removeProductRequest.getProductId());
+        product.setProductName(removeProductRequest.getProductName());
+        product.setProductDescription(removeProductRequest.getProductDescription());
+        product.setPrice(removeProductRequest.getProductPrice());
+        product.setProductCategory(removeProductRequest.getProductCategory());
         productRepository.delete(product);
 
         RemoveProductResponse removeProductResponse = new RemoveProductResponse();
@@ -66,12 +64,11 @@ public class ProductServiceImpl implements ProductService {
     public UpdateProductResponse updateProduct(AddProductRequest addProductRequest) {
         Users users = new Users();
         validateUser(users.getId());
-        checkUpProduct(productId);
         Product product = new Product();
-        product.setProductName("Chocolate");
-        product.setProductDescription("A widely consumed snacks for All");
-        product.setPrice(8500.0);
-        product.setProductCategory(ProductCategory.SUPERMARKET);
+        product.setProductName(addProductRequest.getProductName());
+        product.setProductDescription(addProductRequest.getProductDescription());
+        product.setPrice(addProductRequest.getProductPrice());
+        product.setProductCategory(addProductRequest.getProductCategory());
         productRepository.save(product);
 
         UpdateProductResponse updateProductResponse = new UpdateProductResponse();
@@ -114,26 +111,6 @@ public class ProductServiceImpl implements ProductService {
         else { return products; }
     }
 
-    private void checkProductExist(String productId) {
-        for (Product product : productRepository.findAll()) {
-            if (product.getProductId().equals(productId)) {
-                throw new IllegalArgumentException("Product already exists");
-            }else {
-                productRepository.count();
-            }
-        }
-    }
-
-    private void checkUpProduct(String productId) {
-        for (Product product : productRepository.findAll()) {
-            if (product.getProductId().equals(productId)) {
-                productRepository.save(product);
-            } else {
-                throw new RuntimeException("No products available");
-            }
-        }
-        throw new IllegalArgumentException("No product found");
-    }
 
     private void validateUser(String userId) {
         Optional<Users> user = userService.findUserById(userId);

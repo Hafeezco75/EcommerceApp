@@ -37,7 +37,7 @@ public class ItemServiceImplTest {
     public void testThatCustomerCanRemoveItems() {
         RemoveItemRequest removeItemRequest = new RemoveItemRequest();
         removeItemRequest.setItemId("321");
-        removeItemRequest.setProducts(List.of(new Product()));
+        removeItemRequest.setProducts(List.of(new Product("341","Hollandia","Refreshing and Filling",250.00, ProductCategory.SUPERMARKET)));
         removeItemRequest.setQuantityOfProductSelected(18);
         removeItemRequest.setProductCategory(ProductCategory.GAMING);
         RemoveItemResponse removeItemResponse = itemService.deleteItem(removeItemRequest);
