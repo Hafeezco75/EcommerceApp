@@ -36,32 +36,36 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public RemoveItemResponse deleteItem(RemoveItemRequest removeItemRequest) {
-        Items items = new Items();
-        items.setItemId(removeItemRequest.getItemId());
-        items.setProducts(removeItemRequest.getProducts());
-        items.setQuantityOfProductSelected(removeItemRequest.getQuantityOfProductSelected());
-        items.setCategory(removeItemRequest.getProductCategory());
-        itemsRepository.delete(items);
-
         RemoveItemResponse removeItemResponse = new RemoveItemResponse();
+        for (Items item : itemsRepository.findAll()) {
+            if (item.getProducts().equals(removeItemRequest.getProducts())) {
+                if (item.getQuantityOfProductSelected() == removeItemRequest.getQuantityOfProductSelected()) {
+                    itemsRepository.delete(item);
+                }else {
+                    throw new IllegalArgumentException("The product selected does not match the selected product");
+                }
+            }
+        }
+
         removeItemResponse.setMessage("Items has been successfully removed");
         return removeItemResponse;
     }
 
     @Override
     public UpdateItemResponse updateItem(UpdateItemRequest updateItemRequest) {
+        UpdateItemResponse updateItemResponse = new UpdateItemResponse();
         for (Items item : itemsRepository.findAll()) {
-            if (item.getItemId().equals(updateItemRequest.getItemId())) {
-                item.setProducts(item.getProducts());
-                item.setQuantityOfProductSelected(item.getQuantityOfProductSelected());
-                item.setCategory(item.getCategory());
-                itemsRepository.save(item);
-            }else
-                { throw new NoSuchItemException("Item does not exist");
+            if (item.getProducts().equals(updateItemRequest.getProducts())) {
+                if (item.getQuantityOfProductSelected() == updateItemRequest.getQuantityOfProductSelected()) {
+                    item.setProducts(item.getProducts());
+                    item.setQuantityOfProductSelected(item.getQuantityOfProductSelected());
+                    item.setCategory(item.getCategory());
+                    itemsRepository.save(item);
+                }else {
+                    throw new NoSuchItemException("Item does not exist");
+                }
             }
         }
-
-        UpdateItemResponse updateItemResponse = new UpdateItemResponse();
         updateItemResponse.setMessage("Item has been updated successfully");
         return updateItemResponse;
     }

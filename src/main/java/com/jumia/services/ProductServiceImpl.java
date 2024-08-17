@@ -6,10 +6,8 @@ import com.jumia.data.models.Users;
 import com.jumia.data.repositories.ProductRepository;
 import com.jumia.dtos.requests.AddProductRequest;
 import com.jumia.dtos.requests.RemoveProductRequest;
-import com.jumia.dtos.requests.RetrieveProductRequest;
 import com.jumia.dtos.responses.AddProductResponse;
 import com.jumia.dtos.responses.RemoveProductResponse;
-import com.jumia.dtos.responses.RetrieveProductResponse;
 import com.jumia.dtos.responses.UpdateProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +21,6 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     @Autowired
     private UserService userService;
-
 
 
     @Override
@@ -45,54 +42,45 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public RemoveProductResponse removeProduct(RemoveProductRequest removeProductRequest) {
+        RemoveProductResponse removeProductResponse = new RemoveProductResponse();
         Users users = new Users();
         validateUser(users.getId());
-        Product product = new Product();
-        product.setProductId(removeProductRequest.getProductId());
-        product.setProductName(removeProductRequest.getProductName());
-        product.setProductDescription(removeProductRequest.getProductDescription());
-        product.setPrice(removeProductRequest.getProductPrice());
-        product.setProductCategory(removeProductRequest.getProductCategory());
-        productRepository.delete(product);
-
-        RemoveProductResponse removeProductResponse = new RemoveProductResponse();
+        for (Product product : productRepository.findAll()) {
+            if (product.getProductName().equals(removeProductRequest.getProductName())) {
+                if (product.getProductDescription().equals(removeProductRequest.getProductDescription())) {
+                    productRepository.delete(product);
+                }
+            }
+        }
         removeProductResponse.setMessage("Product has been removed successfully");
         return removeProductResponse;
     }
 
     @Override
     public UpdateProductResponse updateProduct(AddProductRequest addProductRequest) {
+        UpdateProductResponse updateProductResponse = new UpdateProductResponse();
         Users users = new Users();
         validateUser(users.getId());
-        Product product = new Product();
-        product.setProductName(addProductRequest.getProductName());
-        product.setProductDescription(addProductRequest.getProductDescription());
-        product.setPrice(addProductRequest.getProductPrice());
-        product.setProductCategory(addProductRequest.getProductCategory());
-        productRepository.save(product);
-
-        UpdateProductResponse updateProductResponse = new UpdateProductResponse();
+        for (Product products : productRepository.findAll()) {
+            if (products.getProductName().equals(addProductRequest.getProductName())) {
+                if (products.getProductDescription().equals(addProductRequest.getProductDescription())) {
+                    products.setProductId(addProductRequest.getProductId());
+                    products.setProductName(addProductRequest.getProductName());
+                    products.setProductDescription(addProductRequest.getProductDescription());
+                    products.setPrice(addProductRequest.getProductPrice());
+                    products.setProductCategory(addProductRequest.getProductCategory());
+                    productRepository.save(products);
+                }else{
+                    throw new IllegalArgumentException("Product name does not match");
+                }
+            }
+        }
         updateProductResponse.setMessage("Product has been updated successfully");
         return updateProductResponse;
     }
 
+
     @Override
-    public RetrieveProductResponse retrieveProduct(RetrieveProductRequest retrieveProductRequest) {
-        List<Product> products = productRepository.findAll();
-        for (Product product : products) {
-            if (product.getProductId().equals(retrieveProductRequest.getProductId())) {
-                throw new IllegalArgumentException("No products found");
-            } else {
-                getAllProduct(product.getProductId());
-            }
-        }
-
-        RetrieveProductResponse retrieveProductResponse = new RetrieveProductResponse();
-        retrieveProductResponse.setMessage("Product has been retrieved successfully");
-        return retrieveProductResponse;
-    }
-
-
     public Product getProduct(String productId) {
         Product product = productRepository.findByProductId(productId);
         if (product.getProductId().equals(productId)) {

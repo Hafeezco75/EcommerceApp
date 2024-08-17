@@ -6,6 +6,7 @@ import com.jumia.dtos.requests.RemoveProductRequest;
 import com.jumia.dtos.responses.AddProductResponse;
 import com.jumia.dtos.responses.ApiResponse;
 import com.jumia.dtos.responses.RemoveProductResponse;
+import com.jumia.dtos.responses.UpdateProductResponse;
 import com.jumia.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,16 @@ public class ProductController {
         try {
             RemoveProductResponse removeProductResponse = productService.removeProduct(removeProductRequest);
             return new ResponseEntity<>(new ApiResponse(true, removeProductResponse), HttpStatus.CREATED);
+        }catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/Edit")
+    public ResponseEntity<?> updateProduct(@RequestBody AddProductRequest addProductRequest) {
+        try {
+            UpdateProductResponse updateProductResponse = productService.updateProduct(addProductRequest);
+            return new ResponseEntity<>(new ApiResponse(true, updateProductResponse), HttpStatus.CREATED);
         }catch (Exception e) {
             return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         }

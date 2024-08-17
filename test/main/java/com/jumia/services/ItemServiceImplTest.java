@@ -1,7 +1,9 @@
 package com.jumia.services;
 
+import com.jumia.data.models.Items;
 import com.jumia.data.models.Product;
 import com.jumia.data.models.ProductCategory;
+import com.jumia.data.repositories.ItemsRepository;
 import com.jumia.dtos.requests.AddItemRequest;
 import com.jumia.dtos.requests.RemoveItemRequest;
 import com.jumia.dtos.requests.RemoveProductRequest;
@@ -21,6 +23,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class ItemServiceImplTest {
     @Autowired
     private ItemService itemService;
+    @Autowired
+    private ItemsRepository itemsRepository;
 
     @Test
     public void testThatItemsCanBeAddedByTheSeller() {
@@ -47,12 +51,18 @@ public class ItemServiceImplTest {
     @Test
     public void testThatItemsCanBeUpdated() {
         UpdateItemRequest updateItemRequest = new UpdateItemRequest();
-        updateItemRequest.setItemId("321");
+        updateItemRequest.setItemId("41");
         updateItemRequest.setProducts(List.of(new Product("123","NutriC","Refreshing and Filling",250.00, ProductCategory.SUPERMARKET)));
-        updateItemRequest.setQuantityOfProductSelected(15);
+        updateItemRequest.setQuantityOfProductSelected(13);
         updateItemRequest.setProductCategory(ProductCategory.GAMING);
         UpdateItemResponse updateItemResponse = itemService.updateItem(updateItemRequest);
-        assertThat(updateItemResponse.toString()).isEqualTo("Items updated successfully");
+        assertThat(updateItemResponse.getMessage()).isEqualTo("Item has been updated successfully");
+    }
 
+    @Test
+    public void testThatItemsCanBeRetrieved() {
+        List<Items> items = itemsRepository.findAll();
+        items.forEach(System.out::println);
+        assertThat(items.size()).isEqualTo(1);
     }
 }

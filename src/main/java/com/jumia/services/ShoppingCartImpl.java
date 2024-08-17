@@ -52,14 +52,14 @@ public class ShoppingCartImpl implements ShoppingCartService {
         ModifyItemInShoppingCartResponse modifyItemInShoppingCartResponse = new ModifyItemInShoppingCartResponse();
         List<ShoppingCart> shoppingCart = shoppingCartRepository.findAll();
             for (ShoppingCart cart : shoppingCart) {
-                if (Objects.equals(cart.getShoppingCartId(), (modifyItemInShoppingCartRequest.getShoppingCartId()))) {
-                    if (Objects.equals(cart.getItems(), (modifyItemInShoppingCartRequest.getItems()))) {
+                if (cart.getShoppingCartId().equals(modifyItemInShoppingCartRequest.getShoppingCartId())) {
+                    if (cart.getItems().equals(modifyItemInShoppingCartRequest.getItems())) {
                         cart.setItems(modifyItemInShoppingCartRequest.getItems());
                         shoppingCartRepository.save(cart);
                         modifyItemInShoppingCartResponse.setMessage("Successfully modified item in Shopping cart");
+                    }else{
+                        throw new IllegalArgumentException("Shopping cart does not match,try again");
                     }
-                }else{
-                    throw new IllegalArgumentException("Shopping cart does not match,try again");
                 }
             }
         return modifyItemInShoppingCartResponse;

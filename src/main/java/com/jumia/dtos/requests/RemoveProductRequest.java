@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
+@Builder
 public class RemoveProductRequest {
     private String productId;
     private String productName;
