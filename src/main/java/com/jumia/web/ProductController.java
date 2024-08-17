@@ -1,5 +1,6 @@
 package com.jumia.web;
 
+import com.jumia.data.models.Product;
 import com.jumia.dtos.requests.AddProductRequest;
 import com.jumia.dtos.requests.RemoveProductRequest;
 import com.jumia.dtos.responses.AddProductResponse;
@@ -9,10 +10,9 @@ import com.jumia.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ProductController {
@@ -39,5 +39,13 @@ public class ProductController {
         }
     }
 
-
+    @GetMapping("/GetProduct")
+    public ResponseEntity<?> getAllProducts(String productId) {
+        try {
+            List<Product> products = productService.getAllProduct(productId);
+            return new ResponseEntity<>(new ApiResponse(true, products), HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

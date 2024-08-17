@@ -1,5 +1,6 @@
 package com.jumia.web;
 
+import com.jumia.data.models.Items;
 import com.jumia.dtos.requests.AddItemRequest;
 import com.jumia.dtos.requests.RemoveItemRequest;
 import com.jumia.dtos.responses.AddItemResponse;
@@ -9,10 +10,9 @@ import com.jumia.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController("/type")
 public class ItemController {
@@ -40,4 +40,13 @@ public class ItemController {
         }
     }
 
+    @GetMapping("/GetItem")
+    public ResponseEntity<?> getAllItems() {
+        try {
+            List<Items> items = itemService.getAllItems();
+            return new ResponseEntity<>(new ApiResponse(true, items), HttpStatus.OK);
+        }catch (Exception exception){
+            return new ResponseEntity<>(new ApiResponse(false, exception.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -10,9 +10,9 @@ import com.jumia.services.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ShoppingCartController {
@@ -30,13 +30,23 @@ public class ShoppingCartController {
         }
     }
 
-    @PostMapping("/removeItemFromCart")
+    @DeleteMapping("/removeItemFromCart")
     public ResponseEntity<?> removeItemFromShoppingCart(@RequestBody RemoveItemFromShoppingCartRequest removeItemFromShoppingCartRequest) {
         try {
             RemoveItemFromShoppingCartResponse removeItemFromShoppingCartResponse = shoppingCartService.removeItemFromShoppingCart(removeItemFromShoppingCartRequest);
             return new ResponseEntity<>(new ApiResponse(true, removeItemFromShoppingCartResponse), HttpStatus.CREATED);
         }catch(Exception e) {
             return new ResponseEntity<>(new ApiResponse(true, e.getMessage()), HttpStatus.BAD_GATEWAY);
+        }
+    }
+
+    @GetMapping("/Get")
+    public ResponseEntity<?> getShoppingCart() {
+        try {
+            List<ShoppingCart> cart = shoppingCartService.getAllItemsInShoppingCart();
+            return new ResponseEntity<>(cart, HttpStatus.OK);
+        }catch(Exception e) {
+            return new ResponseEntity<>(new ApiResponse(true, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

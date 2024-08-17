@@ -8,6 +8,7 @@ import com.jumia.dtos.responses.LogoutUserResponse;
 import com.jumia.dtos.responses.RegisterUserResponse;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +19,8 @@ public interface UserService {
     void deleteUser(String id);
     Users findUserByPhoneNumber(String phoneNumber);
     Optional<Users> findUserById(String userId);
+
+    List<Users> getAllUsers();
 }
 
 

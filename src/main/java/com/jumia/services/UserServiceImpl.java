@@ -10,6 +10,8 @@ import com.jumia.dtos.responses.LogoutUserResponse;
 import com.jumia.dtos.responses.RegisterUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 
@@ -38,6 +40,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public LoginUserResponse login(LoginUserRequest loginUserRequest) {
+        //validateLogin(loginUserRequest);
         for (Users user : userRepository.findAll()) {
             if (user.getEmail().equals(loginUserRequest.getEmail())){
                 if (user.getPassword().equals(loginUserRequest.getPassword())) {
@@ -106,6 +109,24 @@ public class UserServiceImpl implements UserService{
             }
             userRepository.findAll();
         }
+    }
+
+
+    private void validateLogin(LoginUserRequest loginUserRequest) {
+        String email = loginUserRequest.getEmail();
+
+        for (Users users : userRepository.findAll()) {
+            if (users.getEmail().equals(email)) {
+                throw new IllegalArgumentException("Email already in use,select another email");
+            }else {
+                userRepository.save(users);
+            }
+        }
+    }
+
+    @Override
+    public List<Users> getAllUsers(){
+        return userRepository.findAll();
     }
 
 
