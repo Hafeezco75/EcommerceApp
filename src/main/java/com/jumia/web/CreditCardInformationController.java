@@ -1,5 +1,6 @@
 package com.jumia.web;
 
+import com.jumia.data.models.CreditCardInformation;
 import com.jumia.dtos.requests.AddCreditCardInformationRequest;
 import com.jumia.dtos.requests.ModifyCreditCardInformationRequest;
 import com.jumia.dtos.requests.RemoveCreditCardInformationRequest;
@@ -11,12 +12,12 @@ import com.jumia.services.CreditCardInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping("/v2")
 public class CreditCardInformationController {
     @Autowired
     private CreditCardInformationService creditCardInformationService;
@@ -49,6 +50,16 @@ public class CreditCardInformationController {
             ModifyCreditCardInformationResponse modifyCreditCardInformationResponse = creditCardInformationService.modifyCreditCard(modifyCreditCardInformationRequest);
             return new ResponseEntity<>(new ApiResponse(true, modifyCreditCardInformationResponse), HttpStatus.CREATED);
         } catch (Exception exception) {
+            return new ResponseEntity<>(new ApiResponse(false, exception.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/getCard")
+    public ResponseEntity<?>  getAllCreditCardInformation() {
+        try {
+            List<CreditCardInformation> creditCardInformation = creditCardInformationService.getCreditCardInformation();
+            return new ResponseEntity<>(new ApiResponse(true, creditCardInformation), HttpStatus.OK);
+        }catch (Exception exception) {
             return new ResponseEntity<>(new ApiResponse(false, exception.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }

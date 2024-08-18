@@ -39,7 +39,11 @@ public class ShoppingCartImpl implements ShoppingCartService {
         List<ShoppingCart> shoppingCart = shoppingCartRepository.findAll();
         for (ShoppingCart cart : shoppingCart) {
             if (cart.getShoppingCartId().equals(removeItemFromShoppingCartRequest.getShoppingCartId())) {
-                shoppingCart.remove(cart);
+                if (cart.getItems().equals(removeItemFromShoppingCartRequest.getItems())) {
+                    shoppingCart.remove(cart);
+                }else {
+                    throw new IllegalArgumentException("Shopping cart does not match");
+                }
             }
         }
 
@@ -56,12 +60,12 @@ public class ShoppingCartImpl implements ShoppingCartService {
                     if (cart.getItems().equals(modifyItemInShoppingCartRequest.getItems())) {
                         cart.setItems(modifyItemInShoppingCartRequest.getItems());
                         shoppingCartRepository.save(cart);
-                        modifyItemInShoppingCartResponse.setMessage("Successfully modified item in Shopping cart");
                     }else{
                         throw new IllegalArgumentException("Shopping cart does not match,try again");
                     }
                 }
             }
+        modifyItemInShoppingCartResponse.setMessage("Successfully modified item in Shopping cart");
         return modifyItemInShoppingCartResponse;
     }
 

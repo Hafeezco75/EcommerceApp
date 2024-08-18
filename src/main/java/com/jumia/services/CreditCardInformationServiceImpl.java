@@ -73,4 +73,9 @@ public class CreditCardInformationServiceImpl implements CreditCardInformationSe
         return modifyCreditCardResponse;
     }
 
+    @Override
+    public List<CreditCardInformation> getCreditCardInformation() {
+        return creditCardInformationRepository.findAll();
+    }
+
 }

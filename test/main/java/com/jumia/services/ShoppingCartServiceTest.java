@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -50,7 +49,7 @@ public class ShoppingCartServiceTest {
         modifyItemInShoppingCartRequest.setItems(List.of(new Items("321",List.of(new Product("13","IceCream","Tasty, Freshly and Creamy",300.54,ProductCategory.SUPERMARKET)),30, ProductCategory.SUPERMARKET)));
         ModifyItemInShoppingCartResponse modifyItemInShoppingCartResponse = shoppingCartService.modifyItemInShoppingCart(modifyItemInShoppingCartRequest);
         assertThat(modifyItemInShoppingCartResponse).isNotNull();
-        assertThat(modifyItemInShoppingCartResponse).isEqualTo("Successfully modified item in Shopping cart");
+        assertThat(modifyItemInShoppingCartResponse.getMessage()).isEqualTo("Successfully modified item in Shopping cart");
     }
 
     @Test

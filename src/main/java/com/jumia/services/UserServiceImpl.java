@@ -40,7 +40,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public LoginUserResponse login(LoginUserRequest loginUserRequest) {
-        //validateLogin(loginUserRequest);
+        validateLogin(loginUserRequest);
+        LoginUserResponse loginUserResponse = new LoginUserResponse();
         for (Users user : userRepository.findAll()) {
             if (user.getEmail().equals(loginUserRequest.getEmail())){
                 if (user.getPassword().equals(loginUserRequest.getPassword())) {
@@ -51,7 +52,6 @@ public class UserServiceImpl implements UserService{
                 }
             }
         }
-        LoginUserResponse loginUserResponse = new LoginUserResponse();
         loginUserResponse.setMessage("You have been logged in successfully");
         return loginUserResponse;
     }
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService{
             if (users.getEmail().equals(email)) {
                 throw new IllegalArgumentException("Email already exists,select another email");
             }
-            userRepository.findAll();
+            userRepository.delete(users);
         }
     }
 

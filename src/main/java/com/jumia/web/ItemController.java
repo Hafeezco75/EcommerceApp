@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/type")
+@RestController
+@RequestMapping("/v1/")
 public class ItemController {
     @Autowired
     private ItemService itemService;

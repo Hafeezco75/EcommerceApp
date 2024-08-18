@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -18,7 +19,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class BillingInformationServiceImplTest {
     @Autowired
     BillingInformationService billingInformationService;
-
 
 
     @Test
@@ -41,4 +41,15 @@ public class BillingInformationServiceImplTest {
         assertThat(removeBillingInformationResponse.getMessage()).isEqualTo("Billing Information Removed From User Account");
     }
 
+    @Test
+    public void testThatBillingInformationCanBeUpdated() {
+
+    }
+
+    @Test
+    public void testThatBillingInformationCanBeRetrieved() {
+        List<BillingInformation> billingInformations = billingInformationService.getAllBillingInformation();
+        billingInformations.set(1, new BillingInformation());
+        assertThat(billingInformations.size()).isEqualTo(6);
+    }
 }

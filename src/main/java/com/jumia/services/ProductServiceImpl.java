@@ -28,7 +28,6 @@ public class ProductServiceImpl implements ProductService {
         Users users = new Users();
         validateUser(users.getId());
         Product product = new Product();
-        product.setProductId(addProductRequest.getProductId());
         product.setProductName(addProductRequest.getProductName());
         product.setProductDescription(addProductRequest.getProductDescription());
         product.setPrice(addProductRequest.getProductPrice());
@@ -43,9 +42,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public RemoveProductResponse removeProduct(RemoveProductRequest removeProductRequest) {
         RemoveProductResponse removeProductResponse = new RemoveProductResponse();
+        List<Product> products = productRepository.findAll();
         Users users = new Users();
         validateUser(users.getId());
-        for (Product product : productRepository.findAll()) {
+        for (Product product : products) {
             if (product.getProductName().equals(removeProductRequest.getProductName())) {
                 if (product.getProductDescription().equals(removeProductRequest.getProductDescription())) {
                     productRepository.delete(product);

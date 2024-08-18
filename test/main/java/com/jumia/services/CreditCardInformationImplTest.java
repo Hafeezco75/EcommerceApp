@@ -1,6 +1,7 @@
 package com.jumia.services;
 
 import com.jumia.data.models.CardType;
+import com.jumia.data.models.CreditCardInformation;
 import com.jumia.dtos.requests.AddCreditCardInformationRequest;
 import com.jumia.dtos.requests.ModifyCreditCardInformationRequest;
 import com.jumia.dtos.requests.RemoveCreditCardInformationRequest;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -60,5 +62,12 @@ public class CreditCardInformationImplTest {
         ModifyCreditCardInformationResponse modifyCreditCardInformationResponse = creditCardInformationService.modifyCreditCard(modifyCreditCardInformationRequest);
         assertThat(modifyCreditCardInformationResponse.getMessage()).isNotNull();
         assertThat(modifyCreditCardInformationResponse.getMessage()).isEqualTo("Credit card information successfully updated");
+    }
+
+    @Test
+    public void testThatCreditCardInformationCanBeRetrieved() {
+        List<CreditCardInformation> creditCard = creditCardInformationService.getCreditCardInformation();
+        creditCard.add(1, new CreditCardInformation());
+        assertThat(creditCard.size()).isEqualTo(2);
     }
 }

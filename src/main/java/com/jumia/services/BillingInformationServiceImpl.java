@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BillingInformationServiceImpl implements BillingInformationService {
@@ -34,14 +35,19 @@ public class BillingInformationServiceImpl implements BillingInformationService 
     public RemoveBillingInformationResponse removeBillingInformation(RemoveBillingInformationRequest removeBillingInformationRequest){
         RemoveBillingInformationResponse removeBillingResponse = new RemoveBillingInformationResponse();
         List<BillingInformation> billingInformations = billingInformationRepository.findAll();
-        for (BillingInformation billingInformation : billingInformations) {
-            if (billingInformation.getCreditCardInformation().equals(removeBillingInformationRequest.getCreditCardInformation())) {
-                billingInformationRepository.delete(billingInformation);
-                removeBillingResponse.setMessage("Billing Information Removed from User Account");
+        for (BillingInformation billInformation : billingInformations) {
+            if (Objects.equals(billInformation.getCreditCardInformation(), (removeBillingInformationRequest.getCreditCardInformation()))) {
+                billingInformationRepository.delete(billInformation);
             }else {
                 throw new IllegalArgumentException("Incorrect Credit Card Information");
             }
         }
+        removeBillingResponse.setMessage("Billing Information Removed from User Account");
         return removeBillingResponse;
+    }
+
+    @Override
+    public List<BillingInformation> getAllBillingInformation(){
+        return billingInformationRepository.findAll();
     }
 }
