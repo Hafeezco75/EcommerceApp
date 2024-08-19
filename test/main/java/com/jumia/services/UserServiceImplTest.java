@@ -1,12 +1,18 @@
 package com.jumia.services;
+import com.jumia.data.models.RoleType;
+import com.jumia.data.models.Users;
 import com.jumia.dtos.requests.LoginUserRequest;
 import com.jumia.dtos.requests.RegisterUserRequest;
+import com.jumia.dtos.responses.DeleteUserResponse;
 import com.jumia.dtos.responses.LoginUserResponse;
 import com.jumia.dtos.responses.LogoutUserResponse;
 import com.jumia.dtos.responses.RegisterUserResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
@@ -49,8 +55,4 @@ public class UserServiceImplTest {
         assertThat(logoutUserResponse.getMessage()).isEqualTo("You have been logged out successfully");
     }
 
-    @Test
-    public void testThatUserCanBeDeleted() {
-
-    }
 }
