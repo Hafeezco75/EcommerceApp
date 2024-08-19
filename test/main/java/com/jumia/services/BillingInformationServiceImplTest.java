@@ -2,8 +2,10 @@ package com.jumia.services;
 
 import com.jumia.data.models.*;
 import com.jumia.dtos.requests.AddBillingInformationRequest;
+import com.jumia.dtos.requests.ModifyBillingInformationRequest;
 import com.jumia.dtos.requests.RemoveBillingInformationRequest;
 import com.jumia.dtos.responses.AddBillingInformationResponse;
+import com.jumia.dtos.responses.ModifyBillingInformationResponse;
 import com.jumia.dtos.responses.RemoveBillingInformationResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +45,12 @@ public class BillingInformationServiceImplTest {
 
     @Test
     public void testThatBillingInformationCanBeUpdated() {
-
+        ModifyBillingInformationRequest modifyBillingInformationRequest = new ModifyBillingInformationRequest();
+        modifyBillingInformationRequest.setCreditCardInformation(new CreditCardInformation("424","Buchi Manda",46553224598764L, Month.FEBRUARY, LocalDate.now(), CardType.AMERICANEXPRESS));
+        modifyBillingInformationRequest.setAddresses(new Addresses(21,"Obi Nwaeze Street",State.ABIA,"Abia Municipal","Nigeria"));
+        ModifyBillingInformationResponse modifyBillingInformationResponse = billingInformationService.modifyBillingInformation(modifyBillingInformationRequest);
+        assertThat(modifyBillingInformationResponse.getMessage()).isNotNull();
+        assertThat(modifyBillingInformationResponse.getMessage()).isEqualTo("Billing Information successfully Updated");
     }
 
     @Test

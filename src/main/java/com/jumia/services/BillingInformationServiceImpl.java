@@ -3,8 +3,10 @@ package com.jumia.services;
 import com.jumia.data.models.*;
 import com.jumia.data.repositories.BillingInformationRepository;
 import com.jumia.dtos.requests.AddBillingInformationRequest;
+import com.jumia.dtos.requests.ModifyBillingInformationRequest;
 import com.jumia.dtos.requests.RemoveBillingInformationRequest;
 import com.jumia.dtos.responses.AddBillingInformationResponse;
+import com.jumia.dtos.responses.ModifyBillingInformationResponse;
 import com.jumia.dtos.responses.RemoveBillingInformationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +46,23 @@ public class BillingInformationServiceImpl implements BillingInformationService 
         }
         removeBillingResponse.setMessage("Billing Information Removed from User Account");
         return removeBillingResponse;
+    }
+
+    @Override
+    public ModifyBillingInformationResponse modifyBillingInformation(ModifyBillingInformationRequest modifyBillingInformationRequest){
+        ModifyBillingInformationResponse modifyBillingResponse = new ModifyBillingInformationResponse();
+        List<BillingInformation> billingInformations = billingInformationRepository.findAll();
+        for (BillingInformation billingInformation : billingInformations) {
+            if (billingInformation != null) {
+                billingInformation.setCreditCardInformation(modifyBillingInformationRequest.getCreditCardInformation());
+                billingInformation.setAddresses(modifyBillingInformationRequest.getAddresses());
+                billingInformationRepository.save(billingInformation);
+                modifyBillingResponse.setMessage("Billing Information successfully Updated");
+            }else {
+                throw new IllegalArgumentException("Incorrect Credit Card Information");
+            }
+        }
+        return modifyBillingResponse;
     }
 
     @Override
