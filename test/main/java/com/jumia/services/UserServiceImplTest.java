@@ -48,4 +48,9 @@ public class UserServiceImplTest {
         assertThat(logoutUserResponse).isNotNull();
         assertThat(logoutUserResponse.getMessage()).isEqualTo("You have been logged out successfully");
     }
+
+    @Test
+    public void testThatUserCanBeDeleted() {
+
+    }
 }

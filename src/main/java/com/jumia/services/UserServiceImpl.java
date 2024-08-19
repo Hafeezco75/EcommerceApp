@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public LoginUserResponse login(LoginUserRequest loginUserRequest) {
-        validateLogin(loginUserRequest);
         LoginUserResponse loginUserResponse = new LoginUserResponse();
         for (Users user : userRepository.findAll()) {
             if (user.getEmail().equals(loginUserRequest.getEmail())){
@@ -58,17 +57,17 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public LogoutUserResponse logout(LoginUserRequest loginUserRequest) {
+        LogoutUserResponse logoutUserResponse = new LogoutUserResponse();
         for (Users user : userRepository.findAll()) {
             if (user.getEmail().equals(loginUserRequest.getEmail())) {
                 if (user.getPassword().equals(loginUserRequest.getPassword())) {
-                    setLoggedIn = true;
+                    setLoggedIn = false;
                     userRepository.save(user);
                 }else {
-                    throw new IllegalArgumentException("You are not logged in");
+                    throw new IllegalArgumentException("You are not logged in, please log in first");
                 }
             }
         }
-        LogoutUserResponse logoutUserResponse = new LogoutUserResponse();
         logoutUserResponse.setMessage("You have been logged out successfully");
         return logoutUserResponse;
     }
@@ -106,8 +105,9 @@ public class UserServiceImpl implements UserService{
         for (Users users : userRepository.findAll()) {
             if (users.getEmail().equals(email)) {
                 throw new IllegalArgumentException("Email already exists,select another email");
+            }else {
+                userRepository.save(users);
             }
-            userRepository.delete(users);
         }
     }
 

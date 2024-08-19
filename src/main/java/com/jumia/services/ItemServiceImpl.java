@@ -54,17 +54,16 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public UpdateItemResponse updateItem(UpdateItemRequest updateItemRequest) {
         UpdateItemResponse updateItemResponse = new UpdateItemResponse();
-        for (Items item : itemsRepository.findAll()) {
-            if (item.getProducts().equals(updateItemRequest.getProducts())) {
-                if (item.getQuantityOfProductSelected() == updateItemRequest.getQuantityOfProductSelected()) {
-                    item.setProducts(item.getProducts());
-                    item.setQuantityOfProductSelected(item.getQuantityOfProductSelected());
-                    item.setCategory(item.getCategory());
-                    itemsRepository.save(item);
+        List<Items> items = itemsRepository.findAll();
+        for (Items item : items) {
+            if (item != null) {
+                item.setProducts(item.getProducts());
+                item.setQuantityOfProductSelected(item.getQuantityOfProductSelected());
+                item.setCategory(item.getCategory());
+                itemsRepository.save(item);
                 }else {
                     throw new NoSuchItemException("Item does not exist");
                 }
-            }
         }
         updateItemResponse.setMessage("Item has been updated successfully");
         return updateItemResponse;
