@@ -8,7 +8,7 @@ import com.jumia.dtos.requests.RegisterUserRequest;
 import com.jumia.dtos.responses.LoginUserResponse;
 import com.jumia.dtos.responses.LogoutUserResponse;
 import com.jumia.dtos.responses.RegisterUserResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +16,10 @@ import java.util.Optional;
 
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService{
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
     private boolean setLoggedIn;
 
 

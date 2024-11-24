@@ -8,15 +8,16 @@ import com.jumia.dtos.requests.RemoveBillingInformationRequest;
 import com.jumia.dtos.responses.AddBillingInformationResponse;
 import com.jumia.dtos.responses.ModifyBillingInformationResponse;
 import com.jumia.dtos.responses.RemoveBillingInformationResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class BillingInformationServiceImpl implements BillingInformationService {
-    @Autowired
-    BillingInformationRepository billingInformationRepository;
+
+    private final BillingInformationRepository billingInformationRepository;
 
 
     @Override

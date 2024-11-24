@@ -9,16 +9,16 @@ import com.jumia.dtos.responses.AddItemResponse;
 import com.jumia.dtos.responses.RemoveItemResponse;
 import com.jumia.dtos.responses.UpdateItemResponse;
 import com.jumia.exceptions.NoSuchItemException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ItemServiceImpl implements ItemService {
 
-    @Autowired
-    private ItemsRepository itemsRepository;
+    private final ItemsRepository itemsRepository;
 
 
     @Override

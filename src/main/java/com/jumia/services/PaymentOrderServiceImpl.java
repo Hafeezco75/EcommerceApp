@@ -4,19 +4,20 @@ import com.jumia.data.models.PaymentOrder;
 import com.jumia.data.repositories.PaymentOrderRepository;
 import com.jumia.dtos.requests.AddPaymentOrderRequest;
 import com.jumia.dtos.responses.AddPaymentOrderResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
+@AllArgsConstructor
 public class PaymentOrderServiceImpl implements PaymentOrderService {
-    @Autowired
-    private PaymentOrderRepository paymentOrderRepository;
+
+    private final PaymentOrderRepository paymentOrderRepository;
 
     public ArrayList<PaymentOrder> getPaymentOrders() {
         ArrayList<PaymentOrder> paymentOrders = new ArrayList<PaymentOrder>();
-        paymentOrderRepository.findAll().forEach(paymentOrders::add);
+        paymentOrderRepository.findAll().forEach(e -> paymentOrders.add(e));
         return paymentOrders;
     }
 

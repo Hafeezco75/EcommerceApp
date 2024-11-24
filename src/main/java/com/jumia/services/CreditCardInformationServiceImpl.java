@@ -7,6 +7,7 @@ import com.jumia.dtos.requests.RemoveCreditCardInformationRequest;
 import com.jumia.dtos.responses.AddCreditCardInformationResponse;
 import com.jumia.dtos.responses.ModifyCreditCardInformationResponse;
 import com.jumia.dtos.responses.RemoveCreditCardInformationResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +15,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@AllArgsConstructor
 public class CreditCardInformationServiceImpl implements CreditCardInformationService {
-    @Autowired
-    private CreditCardInformationRepository creditCardInformationRepository;
+
+    private final CreditCardInformationRepository creditCardInformationRepository;
 
 
     @Override

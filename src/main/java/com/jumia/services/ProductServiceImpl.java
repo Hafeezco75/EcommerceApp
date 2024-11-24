@@ -9,18 +9,19 @@ import com.jumia.dtos.requests.RemoveProductRequest;
 import com.jumia.dtos.responses.AddProductResponse;
 import com.jumia.dtos.responses.RemoveProductResponse;
 import com.jumia.dtos.responses.UpdateProductResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private UserService userService;
+
+    private final ProductRepository productRepository;
+
+    private final UserService userService;
 
 
     @Override

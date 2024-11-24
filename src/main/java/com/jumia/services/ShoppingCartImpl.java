@@ -8,17 +8,16 @@ import com.jumia.dtos.requests.RemoveItemFromShoppingCartRequest;
 import com.jumia.dtos.responses.AddItemToShoppingCartResponse;
 import com.jumia.dtos.responses.ModifyItemInShoppingCartResponse;
 import com.jumia.dtos.responses.RemoveItemFromShoppingCartResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
+@AllArgsConstructor
 public class ShoppingCartImpl implements ShoppingCartService {
 
-    @Autowired
-    private ShoppingCartRepository shoppingCartRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
 
     @Override
     public AddItemToShoppingCartResponse addItemToShoppingCart(AddItemToShoppingCartRequest addItemToShoppingCartRequest) {
